@@ -2,6 +2,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class Test{
 	
 	public static void main (String[]args){
@@ -44,7 +47,10 @@ public class Test{
 
 		System.out.println();
 
-		Node n = dfs (parent, 5);
+		Node n = dfs(parent, 5);
+		System.out.println();
+		System.out.println("BFS");
+		n = bfs (parent, 2);
 	}
 
 	public static void inOrder(Node root){
@@ -94,6 +100,7 @@ public class Test{
 			current = stack.pop();
 			if(current.getValue() == value){
 				System.out.println("found the node!");
+				System.out.println(current.getValue());
 				return current;
 			}
 			if (!visited.contains(current)){
@@ -104,6 +111,37 @@ public class Test{
 				while(i.hasNext()){
 					temp = (Node)i.next();
 					stack.push(temp);
+					System.out.println("pushing to stack - "+ temp.getValue());
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static Node bfs(Node root, int value){
+		HashSet<Node> visited = new HashSet<Node>();
+		Queue<Node> queue = new LinkedList<Node>();
+		ArrayList<Node> successors;
+		Iterator i;
+		Node temp;
+
+		queue.add(root);
+		Node current;
+		while(queue.peek() != null){
+			current = queue.remove();
+			if(current.getValue() == value){
+				System.out.println("found the node!");
+				return current;
+			}
+			if (!visited.contains(current)){
+				System.out.println("visited " + current.getValue());
+				visited.add(current);
+				successors = current.getSuccessors();
+				i = successors.iterator();
+				while(i.hasNext()){
+					temp = (Node)i.next();
+					queue.add(temp);
 					System.out.println("pushing to stack - "+ temp.getValue());
 				}
 			}
